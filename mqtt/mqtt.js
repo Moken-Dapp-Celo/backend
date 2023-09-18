@@ -1,88 +1,56 @@
 const mqtt = require("mqtt");
-const { MokenContractAddress } = require("../ethers");
-const { ethers } = require("ethers");
-const moken = require("../controllers/moken");
+require("dotenv").config();
 
 class MqttHandler {
   constructor() {
-    console.log("aaaaaaaaaaaa");
-    console.log(process.env.MQTT_HOST);
+    console.log("Initializing MQTT handler");
+
     this.host = process.env.MQTT_HOST;
-    this.port = 8884;
-    this.protocol = "mqtts";
-    this.username = process.env.MQTT_USERNAME; // mqtt credentials if these are needed to connect
+    this.port = 8884; // Use the provided port
+    this.protocol = "mqtts"; // MQTT over TLS
+    this.username = process.env.MQTT_USERNAME;
     this.password = process.env.MQTT_PASSWORD;
-  }
-
-  async transfer(info) {
-    print(info);
-    // try {
-    //     const mokenContract = await MokenContractAddress(process.env.MNEMONIC)
-    //     const wallet = ethers.Wallet.fromMnemonic(info[0])
-    //     const balanceOf = await mokenContract.balanceOf(wallet.address)
-
-    //     if (balanceOf.toNumber() == 0) {
-    //         this.mqttClient.publish('response', '0')
-    //         console.log("Usuário sem cotas o suficiente!")
-    //         return
-    //     }
-    //     this.mqttClient.publish('response', '1')
-    //     console.log(wallet.address)
-    //     const tx = await mokenContract.use(wallet.address)
-    //     await tx.wait()
-
-    //     await trip.create_trip(parseInt(info[1]), info[2])
-    //     console.log("Sucesso!")
-    // } catch (err) {
-    //     console.log(err)
-    // }
+    this.clientId = process.env.ClientID;
   }
 
   connect() {
-    // Conexão com o MQTT
-    this.mqttClient = mqtt.connect(this.host, {
+    // MQTT connection options
+    const options = {
+      clientId: this.clientId,
       username: this.username,
       password: this.password,
-      host: this.host,
-      port: this.port,
-      protocol: this.protocol,
-      reconnectPeriod: 5000, // Try reconnecting in 5 seconds if connection is lost
-    });
+      clean: true, // Clean session
+    };
 
-    // Caso a conexão falhe
+    // Connect to MQTT broker
+    this.mqttClient = mqtt.connect(this.protocol + "://" + this.host, options);
+
+    // Handle MQTT connection events
     this.mqttClient.on("error", (err) => {
-      console.log(err);
-      this.mqttClient.end();
+      console.error("MQTT error:", err);
     });
 
-    // Caso a conexão seja bem sucedida
     this.mqttClient.on("connect", () => {
-      console.log(`Conexão com o MQTT bem sucedida!`);
+      console.log(`Connected to MQTT broker`);
+      // Subscribe to desired topics here
+      this.mqttClient.subscribe("transfer2", { qos: 0 });
+      this.mqttClient.publish("transfer2", "Hello mqtt");
     });
 
-    // Escutar pelo tópico /location
-    this.mqttClient.subscribe("transfer", { qos: 0 });
-    // const parsedMsg = [process.env.MNEMONIC, 1, 1]
-    // this.transfer(parsedMsg)
-
-    const scope = this;
-    // Função executada quando uma mensagem chega
-    this.mqttClient.on("message", function (topic, message) {
-      const msg = message.toString();
-      const parsedMsg = msg.split(", ");
-
-      switch (topic) {
-        case "transfer":
-          scope.transfer(parsedMsg);
-          break;
-      }
+    this.mqttClient.on("message", (topic, message) => {
+      console.log(
+        `Received message on topic "${topic}": ${message.toString()}`
+      );
+      // Handle incoming messages as needed
     });
 
-    // Desconectar do MQTT
     this.mqttClient.on("close", () => {
-      console.log(`Desconectado do MQTT`);
+      console.log(`Disconnected from MQTT broker`);
+      // Handle reconnection or other actions if needed
     });
   }
 }
 
-module.exports = MqttHandler;
+// Usage
+const mqttHandler = new MqttHandler();
+mqttHandler.connect();
