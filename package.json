@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Repository for the mqtt pubilsher/subscriber scheme that the iot will use to communicate with the blockchain",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Moken-DApp-Zeniq/Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Moken-DApp-Zeniq/Backend/issues"
+  },
+  "homepage": "https://github.com/Moken-DApp-Zeniq/Backend#readme",
+  "dependencies": {
+    "ethers": "^6.7.1",
+    "mqtt": "^5.0.5"
+  }
+}
