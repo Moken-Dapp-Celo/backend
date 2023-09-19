@@ -1,7 +1,7 @@
 const mqtt = require("mqtt");
 require("dotenv").config();
-const { MokenContract } = require("../ethers/index.js");
-const fs = require("fs");
+const { MokenContract } = require("../ethers/index2.js");
+
 class MqttHandler {
   constructor() {
     console.log("Initializing MQTT handler");
@@ -46,24 +46,15 @@ class MqttHandler {
       if (topic === "transfer2") {
         console.log("Do something");
         try {
+          const fs = require("fs");
+
           const contract = MokenContract();
 
-          const result = await contract.functions.emit_event();
+          const result = await contract.functions.teste_f1();
 
           console.log(result);
-          let txrecipt = await result.wait();
-          try {
-            let event = txrecipt.events[0];
-            const values = event.args;
-            console.log("events", event);
-            console.log("values", values);
-            let a = values.a;
-            console.log("a", a);
-            console.log("a", a.toString());
-          } catch (error) {
-            console.log(error);
-          }
 
+          console.log(result.toString());
           // save result tp result.txt
 
           fs.writeFile("./result.txt", String(result), function (err) {
