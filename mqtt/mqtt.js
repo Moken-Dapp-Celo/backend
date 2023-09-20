@@ -2,10 +2,12 @@ const mqtt = require("mqtt");
 require("dotenv").config();
 const { MokenContract } = require("../ethers/index.js");
 const fs = require("fs");
+const { getDayOfYear } = require("../utils/date.js");
+const { get } = require("http");
 class MqttHandler {
   constructor() {
     console.log("Initializing MQTT handler");
-
+    console.log("date", getDayOfYear(new Date()));
     this.host = process.env.MQTT_HOST;
     this.port = 0; // Use the provided port
     this.protocol = "mqtts"; // MQTT over TLS
@@ -53,7 +55,7 @@ class MqttHandler {
           const contract = MokenContract();
           try {
             const result = await contract.functions.checkIn(
-              8,
+              getDayOfYear(new Date()),
               message.toString()
             );
             console.log(result);
