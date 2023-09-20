@@ -1,15 +1,24 @@
-const  {ethers} = require('ethers')
-const Moken = require('../contracts/Moken.json')
+const { ethers } = require("ethers");
+const mokenJson = require("../contracts/moken.json");
+const MokenContract = () => {
+  ethers.utils.Logger.setLogLevel(ethers.utils.Logger.levels.ERROR); // Set to ERROR level to reduce logs
 
-const MokenContractAddress = async (mnemonic) => {
-    const {  MOKEN_ADDRESS,API_KEY,BASE_URL  } = process.env
-    const provider = new ethers.providers.JsonRpcProvider(`${BASE_URL}${API_KEY}`)
-    const wallet = ethers.Wallet.fromMnemonic(mnemonic)
-    const connectedWallet = wallet.connect(provider)
-    
-    const contract = new ethers.Contract(MOKEN_ADDRESS, Moken.abi, connectedWallet)
+  const { MOKEN_ADDRESS, MNEMONIC } = process.env;
 
-    return contract
-}
+  const provider = new ethers.providers.JsonRpcProvider(
+    "https://smart.zeniq.network:9545"
+  );
 
-module.exports = { MokenContractAddress }
+  const wallet = new ethers.Wallet.fromMnemonic(MNEMONIC);
+  const connectedWallet = wallet.connect(provider);
+  
+  const contract = new ethers.Contract(
+    MOKEN_ADDRESS,
+    mokenJson.abi,
+    connectedWallet
+  );
+
+  return contract;
+};
+
+module.exports = { MokenContract };
