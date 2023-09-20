@@ -48,28 +48,12 @@ class MqttHandler {
         try {
           const contract = MokenContract();
 
-          const result = await contract.functions.emit_event();
-
+          const result = await contract.functions.checkIn(
+            10,
+            "0xceC2cacCfd25EAc254A609c07d598808911B82Af"
+          );
           console.log(result);
-          let txrecipt = await result.wait();
-          try {
-            let event = txrecipt.events[0];
-            const values = event.args;
-            console.log("events", event);
-            console.log("values", values);
-            let a = values.a;
-            console.log("a", a);
-            console.log("a", a.toString());
-          } catch (error) {
-            console.log(error);
-          }
-
-          // save result tp result.txt
-
-          fs.writeFile("./result.txt", String(result), function (err) {
-            if (err) throw err;
-            console.log("Saved!");
-          });
+          console.log("result", result.toString());
         } catch (error) {
           console.log(error);
         }
