@@ -40,7 +40,6 @@ class MqttHandler {
       console.log(`Connected to MQTT broker`);
       // Subscribe to desired topics here
       this.mqttClient.subscribe("checkIn", { qos: 0 });
-
     });
 
     this.mqttClient.on("message", async (topic, message) => {
