@@ -7,7 +7,7 @@ class MqttHandler {
     console.log("Initializing MQTT handler");
 
     this.host = process.env.MQTT_HOST;
-    this.port = 8884; // Use the provided port
+    this.port = 0; // Use the provided port
     this.protocol = "mqtts"; // MQTT over TLS
     this.username = process.env.MQTT_USERNAME;
     this.password = process.env.MQTT_PASSWORD;
@@ -17,10 +17,15 @@ class MqttHandler {
   connect() {
     // MQTT connection options
     const options = {
-      clientId: this.clientId,
       username: this.username,
       password: this.password,
       clean: true, // Clean session
+      port: this.port,
+
+      ssl_params: {
+        server_hostname: "27c4ac6276f441e49d6e912f9be0e6d2.s1.eu.hivemq.cloud",
+        rejectUnauthorized: false,
+      },
     };
 
     // Connect to MQTT broker
@@ -34,8 +39,8 @@ class MqttHandler {
     this.mqttClient.on("connect", () => {
       console.log(`Connected to MQTT broker`);
       // Subscribe to desired topics here
-      this.mqttClient.subscribe("transfer2", { qos: 0 });
-      this.mqttClient.publish("transfer2", "Hello mqtt");
+      this.mqttClient.subscribe("checkIn", { qos: 0 });
+
     });
 
     this.mqttClient.on("message", async (topic, message) => {
@@ -43,17 +48,21 @@ class MqttHandler {
         `Received message on topic "${topic}": ${message.toString()}`
       );
       // Handle incoming messages as needed
-      if (topic === "transfer2") {
+      if (topic === "checkIn") {
         console.log("Do something");
         try {
           const contract = MokenContract();
-
-          const result = await contract.functions.checkIn(
-            10,
-            "0xceC2cacCfd25EAc254A609c07d598808911B82Af"
-          );
-          console.log(result);
-          console.log("result", result.toString());
+          try {
+            const result = await contract.functions.checkIn(
+              8,
+              message.toString()
+            );
+            console.log(result);
+            console.log("result", result.toString());
+            this.mqttClient.publish("result", result.toString());
+          } catch (error) {
+            console.log(error);
+          }
         } catch (error) {
           console.log(error);
         }
