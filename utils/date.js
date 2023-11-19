@@ -6,14 +6,14 @@ const dayOfYear = getDayOfYear(currentDate);
 
 // Function to calculate the day of the year
 function getDayOfYear(date) {
-  const startOfYear = new Date(date.getFullYear(), 0, 0);
-  const diff = date - startOfYear;
-  const oneDay = 1000 * 60 * 60 * 24; // milliseconds in a day
-  return Math.floor(diff / oneDay);
+	const startOfYear = new Date(date.getFullYear(), 0, 0);
+	const diff = date - startOfYear;
+	const oneDay = 1000 * 60 * 60 * 24; // milliseconds in a day
+	return Math.floor(diff / oneDay);
 }
 
-console.log("Day of the year:", dayOfYear);
+console.log('Day of the year:', dayOfYear);
 
 module.exports = {
-  getDayOfYear,
+	getDayOfYear,
 };

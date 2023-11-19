@@ -1,27 +1,28 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "Repository for the mqtt pubilsher/subscriber scheme that the iot will use to communicate with the blockchain",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Moken-DApp-Zeniq/Backend.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Moken-DApp-Zeniq/Backend/issues"
-  },
-  "homepage": "https://github.com/Moken-DApp-Zeniq/Backend#readme",
-  "dependencies": {
-    "@truffle/hdwallet-provider": "^2.1.15",
-    "dotenv": "^16.3.1",
-    "env": "^0.0.2",
-    "ethers": "^5.7.2",
-    "mqtt": "^5.0.5",
-    "web3": "^4.1.1"
-  }
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "Repository for the mqtt pubilsher/subscriber scheme that the iot will use to communicate with the blockchain",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Moken-DApp-Zeniq/Backend.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Moken-DApp-Zeniq/Backend/issues"
+	},
+	"homepage": "https://github.com/Moken-DApp-Zeniq/Backend#readme",
+	"dependencies": {
+		"@truffle/hdwallet-provider": "^2.1.15",
+		"dotenv": "^16.3.1",
+		"env": "^0.0.2",
+		"ethers": "^5.7.2",
+		"mqtt": "^5.0.5",
+		"web3": "^4.1.1"
+	}
 }
