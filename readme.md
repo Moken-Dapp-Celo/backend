@@ -22,16 +22,18 @@ npm run start
 ## Folder structure
 
 ```bash
+.
+├── app.js
 ├── contracts
-│   ├── moken.json
+│   └── moken.json
 ├── ethers
-│   ├── index.js
+│   └── index.js
 ├── mqtt
-│   ├── .env.tmpl
-│   ├── mqtt.js
-├── .gitignore
-├── package-lock.json
+│   └── index.js
 ├── package.json
-├── README.md
+├── package-lock.json
+├── readme.md
+└── utils
+    └── date.js
 ```
 
