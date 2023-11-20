@@ -67,7 +67,8 @@ class MqttHandler {
 	async processCheckInMessage(message) {
 		try {
 			const contract = MokenContract();
-			const result = await contract.functions.checkIn(getDayOfYear(new Date()), message.toString());
+			console.log('Checking day of year:', getDayOfYear(new Date()));
+			const result = await contract.checkIn(getDayOfYear(new Date()), message.toString());
 			console.log('result', result.toString());
 			this.mqttClient.publish('result', result.toString());
 		} catch (error) {
