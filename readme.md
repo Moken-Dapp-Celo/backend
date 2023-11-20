@@ -12,11 +12,10 @@ On the root directory, run:
 npm install
 ```
 
-Create a .env file based on the .env.tmpl in the mqtt directory file and fill the variables with the correct values. Then, go to the ./mqtt folder and run:
+Create a .env file based on the .env.tmpl in the root directory file and fill the variables with the correct values. Then run:
 
 ```bash
 npm run start
-
 ```
 
 ## Folder structure
